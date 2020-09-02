@@ -19,6 +19,7 @@ import static org.apache.sling.api.resource.ResourceResolver.PROPERTY_RESOURCE_T
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Default;
@@ -49,6 +50,29 @@ public class HelloWorldModel {
     private ResourceResolver resourceResolver;
 
     private String message;
+
+    @ValueMapValue(injectionStrategy=InjectionStrategy.OPTIONAL)
+    protected String greeting;
+
+    @ValueMapValue(injectionStrategy=InjectionStrategy.OPTIONAL)
+    protected String text;
+
+    /***
+     *
+     * @return the value of greeting, if null or blank returns "Hello"
+     */
+    public String getGreeting() {
+        return StringUtils.isNotBlank(this.greeting) ? this.greeting : "Hello";
+    }
+
+    /***
+     *
+     * @return All caps variation of the text value
+     */
+    public String getTextUpperCase() {
+        return StringUtils.isNotBlank(this.text) ? this.text.toUpperCase() : null;
+    }
+
 
     @PostConstruct
     protected void init() {
